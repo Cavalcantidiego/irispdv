@@ -23,11 +23,19 @@ import java.time.format.DateTimeFormatter;
 import java.awt.event.ActionEvent;
 import javax.swing.UIManager; // Importação necessária para redimensionar na própria linha
 
+//importar a calse Database dp pacote database
+import database.Database;
+
 public class Main extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JLabel lbldata;
+	
+	//Criação de um objeto para lidar com a conexção
+	Database db = new Database();
+	private JLabel lblpornto;
+	private JLabel lblMySQL;
 
 	/**
 	 * Launch the application.
@@ -309,12 +317,12 @@ public class Main extends JFrame {
 		lblBancoDeDados.setIcon(new ImageIcon(Main.class.getResource("/img/servidor.png")));
 		panel_rodape.add(lblBancoDeDados);
 		
-		JLabel lblpornto = new JLabel("●");
+		lblpornto = new JLabel("●");
 		lblpornto.setForeground(new Color(255, 0, 0));
 		lblpornto.setBounds(176, 10, 27, 14);
 		panel_rodape.add(lblpornto);
 		
-		JLabel lblMySQL = new JLabel("Mysql Desconectado");
+		lblMySQL = new JLabel("");
 		lblMySQL.setBounds(44, 10, 145, 14);
 		panel_rodape.add(lblMySQL);
 		
@@ -348,6 +356,19 @@ public class Main extends JFrame {
 		
 		//atualizar data
 		atualizarData();
+		
+		//status do banco (mudar texto e cor da bolinha) 
+		if (db.testarConexão() == true) {
+			System.out.println("Banco conectado");
+			lblMySQL.setText("MySql Conectado");
+			lblpornto.setForeground(Color.green);
+		} else {
+			System.out.println("Erro na conexão");
+			lblMySQL.setText("MySql Desconectado");
+			lblpornto.setForeground(Color.yellow);
+		}
+		
+ 
 		
 	} //fim do construtor 
 	
